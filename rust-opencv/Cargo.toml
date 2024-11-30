@@ -3,7 +3,13 @@ name = "rust-opencv"
 version = "0.1.0"
 edition = "2021"
 
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-opencv="0.93.4"
+opencv= { version="0.93.4", features = ["clang-runtime"] }
+#mediapipe-rs = { git = "https://github.com/WasmEdge/mediapipe-rs.git", branch = "main" }
+mediapipe = { git = "https://github.com/julesyoungberg/mediapipe-rs" }
+anyhow = "1.0.93"
+half = "2.4.1"
+ndarray = "0.16.1"
