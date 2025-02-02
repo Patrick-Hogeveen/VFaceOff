@@ -1,12 +1,17 @@
 package com.example.vfaceoff
 
 import android.Manifest
+import android.graphics.Canvas
+//import android.graphics.Color
+import androidx.compose.ui.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.camera.core.CameraControl
 import androidx.camera.core.CameraSelector
+import androidx.compose.foundation.Canvas
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.lifecycle.awaitInstance
@@ -38,6 +43,10 @@ import com.example.vfaceoff.imageAnalysis.TrackingViewModel
 import com.example.vfaceoff.ui.theme.VfaceoffTheme
 import com.example.vfaceoff.permission.WithPermission
 
+import com.google.common.math.Quantiles.scale
+import com.google.mediapipe.examples.facelandmarker.OverlayView
+import com.google.mediapipe.tasks.vision.core.RunningMode
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,29 +69,40 @@ class MainActivity : ComponentActivity() {
 
 
 
+
 @Composable
 fun CameraAppScreen(
     modifier: Modifier = Modifier,
-    viewModel: TrackingViewModel = viewModel()
+
 ) {
+
+
     var lensFacing by remember { mutableIntStateOf(CameraSelector.LENS_FACING_FRONT) }
     var zoomLevel by remember { mutableFloatStateOf(0.0f) }
     //val imageCaptureUseCase = remember { ImageCapture.Builder().build() }
     var localContext = LocalContext.current
 
+    val viewModel = TrackingViewModel(localContext, runningMode = RunningMode.LIVE_STREAM)
+
+    //val uiState by viewModel.faceLandmarkerHelperListener;
 
     val imageAnalysisUseCase = remember {
         ImageAnalysis.Builder().build().apply {
             setAnalyzer(localContext.mainExecutor, viewModel.imageAnalyzer)
         }
     }
+    Log.v("Test", "test")
 
+    val overlay = OverlayView(localContext);
     Box {
         CameraPreview(
             lensFacing = lensFacing,
             zoomLevel = zoomLevel,
             imageAnalysisUseCase = imageAnalysisUseCase
         )
+
+        overlay.draw(Canvas())
+        CanvasCircleExample()
 
         Column (modifier = Modifier.align(Alignment.BottomCenter)) {
             Row {
@@ -107,6 +127,19 @@ fun CameraAppScreen(
         }
     }
 
+}
+
+@Composable
+fun CanvasCircleExample() {
+    // [START android_compose_graphics_canvas_circle]
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        val canvasQuadrantSize = size / 2F
+        drawRect(
+            color = Color.Magenta,
+            size = canvasQuadrantSize
+        )
+    }
+    // [END android_compose_graphics_canvas_circle]
 }
 
 @Composable
