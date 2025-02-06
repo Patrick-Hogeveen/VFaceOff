@@ -1,5 +1,6 @@
 package com.example.vfaceoff
 
+import ScreenFaceDetector
 import android.Manifest
 import android.graphics.Canvas
 //import android.graphics.Color
@@ -44,8 +45,10 @@ import com.example.vfaceoff.ui.theme.VfaceoffTheme
 import com.example.vfaceoff.permission.WithPermission
 
 import com.google.common.math.Quantiles.scale
-import com.google.mediapipe.examples.facelandmarker.OverlayView
+//import com.google.mediapipe.examples.facelandmarker.OverlayView
 import com.google.mediapipe.tasks.vision.core.RunningMode
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.coroutineScope
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,7 +79,7 @@ fun CameraAppScreen(
 
 ) {
 
-
+    val scope = MainScope()
     var lensFacing by remember { mutableIntStateOf(CameraSelector.LENS_FACING_FRONT) }
     var zoomLevel by remember { mutableFloatStateOf(0.0f) }
     //val imageCaptureUseCase = remember { ImageCapture.Builder().build() }
@@ -93,16 +96,16 @@ fun CameraAppScreen(
     }
     Log.v("Test", "test")
 
-    val overlay = OverlayView(localContext);
+    //val overlay = OverlayView(localContext);
     Box {
-        CameraPreview(
-            lensFacing = lensFacing,
-            zoomLevel = zoomLevel,
-            imageAnalysisUseCase = imageAnalysisUseCase
-        )
+        //CameraPreview(
+        //    lensFacing = lensFacing,
+        //    zoomLevel = zoomLevel,
+        //    imageAnalysisUseCase = imageAnalysisUseCase
+        //)
 
-        overlay.draw(Canvas())
-        CanvasCircleExample()
+        ScreenFaceDetector(context=localContext, coroutineScope = scope)
+
 
         Column (modifier = Modifier.align(Alignment.BottomCenter)) {
             Row {
