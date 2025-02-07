@@ -40,7 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.vfaceoff.imageAnalysis.TrackingViewModel
+
 import com.example.vfaceoff.ui.theme.VfaceoffTheme
 import com.example.vfaceoff.permission.WithPermission
 
@@ -85,15 +85,7 @@ fun CameraAppScreen(
     //val imageCaptureUseCase = remember { ImageCapture.Builder().build() }
     var localContext = LocalContext.current
 
-    val viewModel = TrackingViewModel(localContext, runningMode = RunningMode.LIVE_STREAM)
 
-    //val uiState by viewModel.faceLandmarkerHelperListener;
-
-    val imageAnalysisUseCase = remember {
-        ImageAnalysis.Builder().build().apply {
-            setAnalyzer(localContext.mainExecutor, viewModel.imageAnalyzer)
-        }
-    }
     Log.v("Test", "test")
 
     //val overlay = OverlayView(localContext);

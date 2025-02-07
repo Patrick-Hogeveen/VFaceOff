@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.vfaceoff.imageAnalysis.LandmarkDetectorComposeBuilder
 import kotlinx.coroutines.CoroutineScope
 
 @Composable
@@ -25,7 +26,7 @@ fun ScreenFaceDetector(
     ) {
         //Text(text = "Hello MediaPipe", style = MaterialTheme.typography.titleLarge)
 
-        FaceDetectorComposeBuilder(
+        LandmarkDetectorComposeBuilder(
             context = context,
             scope = coroutineScope,
             //cameraPermissionRequest = cameraPermissionRequest
